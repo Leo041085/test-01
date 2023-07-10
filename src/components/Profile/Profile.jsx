@@ -1,55 +1,40 @@
-import { useNavigate } from 'react-router-dom'
-import {
-    Card,
-    Typography,
-    CardContent,
-    CardMedia,
-    Stack,
-    Alert,
-} from '@mui/material'
+import PropTypes from 'prop-types'
+import { ProfiledStyled, NameStyled, StatsNumber, Stats } from './ProfileStyles'
 
-const Profile = ({
-    profile: { image, firstName, lastName, phone, gender, email },
-}) => {
-    const navigate = useNavigate()
-    return (
-        <Card onClick={() => navigate('/profile')} sx={{ cursor: 'pointer' }}>
-            <CardMedia
-                sx={{ height: 340, boxShadow: '0 0 12px inset gray', m: 2 }}
-                image={image}
-                title={firstName}
-            />
-            <Stack>
-                <Typography variant="h5" sx={{ m: '0 auto' }}>
-                    {firstName} {lastName}
-                </Typography>
-            </Stack>
-            <CardContent>
-                <Stack spacing={3}>
-                    <Alert variant="outlined" severity="info" icon={false}>
-                        <Stack direction="row" spacing={2}>
-                            <Typography variant="subtitle1">Gender:</Typography>
-                            <Typography variant="subtitle1">
-                                {gender}
-                            </Typography>
-                        </Stack>
-                    </Alert>
-                    <Alert variant="outlined" severity="info" icon={false}>
-                        <Stack direction="row" spacing={2}>
-                            <Typography variant="subtitle1">Phone:</Typography>
-                            <Typography variant="subtitle1">{phone}</Typography>
-                        </Stack>
-                    </Alert>
-                    <Alert variant="outlined" severity="info" icon={false}>
-                        <Stack direction="row" spacing={2}>
-                            <Typography variant="subtitle1">Email:</Typography>
-                            <Typography variant="subtitle1">{email}</Typography>
-                        </Stack>
-                    </Alert>
-                </Stack>
-            </CardContent>
-        </Card>
-    )
+export const Profile = ({ username, tag, location, avatar, stats }) => {
+    return <ProfiledStyled className="profile">
+  <div className="description">
+    <img
+      src={avatar}
+      alt="User avatar"
+      className="avatar"
+    />
+            <NameStyled className="name">{username}</NameStyled>
+            <p className="tag">@{tag}</p>
+    <p className="location">{location}</p>
+  </div>
+
+  <Stats>
+    <li>
+      <span className="label">Followers</span>
+                <StatsNumber>{stats.followers}</StatsNumber>
+    </li>
+    <li>
+      <span className="label">Views</span>
+      <StatsNumber>{stats.views}</StatsNumber>
+    </li>
+    <li>
+      <span className="label">Likes</span>
+      <StatsNumber>{stats.likes}</StatsNumber>
+    </li>
+  </Stats>
+</ProfiledStyled>
 }
 
-export default Profile
+Profile.propTypes = {
+    username: PropTypes.string.isRequired,
+    tag: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    stats: PropTypes.object.isRequired
+}
